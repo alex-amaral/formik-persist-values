@@ -27,11 +27,11 @@
 Persist and rehydrate a [Formik](https://github.com/jaredpalmer/formik) form values.
 
 ```
-npm install formik-persist-values --save
+npm install formik-persist-remote-values --save
 ```
 
 ```
-yard add formik-persist-values
+yard add formik-persist-remote-values
 ```
 
 # Basic Usage
@@ -69,20 +69,17 @@ export const Signup = () => (
 - `name: string`: LocalStorage key to save form state to
 - `ignoreValues:? string[]`: Provide array of keys if you need to do not persist some values
 - `debounce:? number`: Default is `300`. Number of ms to debounce the function that saves form state.
-- `storage:? 'localStorage' | 'sessionStorage' | Storage`: default is `localStorage` . Send if you want Session storage or your own storage instead of Local storage
+- `storage:? 'localStorage' | 'sessionStorage' | Storage | CustomStorage`: default is `localStorage` . Send if you want Session storage or your own storage instead of Local storage
 - `persistInvalid:? boolean`: default is `false` . Persist if you want to save invalid values
 - `hashInitials:? boolean`: default is `false` . Hash initials values to prevent conflict between initialValues and persistedValues.
 - `hashSpecificity:? number`: default is `7` . Hash initials values specificity to prevent conflict between cache hashes.
 
 ## Author
 
-- Grigoriy Kolenko [@kolengri](https://twitter.com/kolengri)
+- Alexsander Rocha [@alex-amaral]
 
 ## Inspired by
 
 - Jared Palmer [@jaredpalmer](https://twitter.com/jaredpalmer)
 - [formik-persist](https://github.com/jaredpalmer/formik-persist)
-
-## Thanks
-
-- Alex Kuchun [@kuchun](https://github.com/kuchun)
+- Grigoriy Kolenko [@kolengri](https://twitter.com/kolengri)

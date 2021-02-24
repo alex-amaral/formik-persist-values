@@ -6,12 +6,22 @@ import omit from 'lodash.omit';
 
 const KEY_DELIMITER = '_';
 
+export type CustomStorage = {
+  setItem: (
+    formId: string,
+    formValues: Record<string, any> | string
+  ) => Promise<any> | void;
+  getItem: (key: string) => Promise<any> | void;
+  removeItem: (key: string) => Promise<any> | void;
+  clear: () => void;
+};
+
 export interface PersistFormikValuesProps {
   name: string;
   // Debounce in ms
   debounce?: number;
   // Possible provide own storage
-  storage?: 'localStorage' | 'sessionStorage' | Storage;
+  storage?: 'localStorage' | 'sessionStorage' | Storage | CustomStorage;
   // By default persisting only if form is valid
   persistInvalid?: boolean;
   // Hash form initial values for storage key generation
@@ -20,6 +30,8 @@ export interface PersistFormikValuesProps {
   hashSpecificity?: number;
   // List of not persisted values
   ignoreValues?: string[];
+  // Function to parse values before persist
+  parseValues?: (values: Record<string, any>) => void;
 }
 /**
  * Hash function to do not persist different initial values
@@ -43,7 +55,9 @@ const getHash = (obj: any, specificity: number = 7) => {
 // Controls is working in browser
 const useBrowser = () => !!window;
 
-const useStorage = (props: PersistFormikValuesProps): Storage | undefined => {
+const useStorage = (
+  props: PersistFormikValuesProps
+): Storage | CustomStorage | undefined => {
   const { storage = 'localStorage' } = props;
   const isBrowser = useBrowser();
 
@@ -59,7 +73,7 @@ const useStorage = (props: PersistFormikValuesProps): Storage | undefined => {
 
 const usePersistedString = (
   props: PersistFormikValuesProps
-): [string | null, (values: FormikValues) => void] => {
+): [string | void | null, (values: FormikValues) => void] => {
   const { name: defaultName, hashInitials, hashSpecificity } = props;
   const { initialValues } = useFormikContext<any>();
   const keyName = `${defaultName}${KEY_DELIMITER}`;
@@ -76,7 +90,13 @@ const usePersistedString = (
 
   const state = useMemo(() => {
     if (storage) {
-      return storage.getItem(name);
+      let item;
+      Promise.resolve(storage.getItem(name))
+        .then(value => {
+          item = value;
+        })
+        .catch(error => console.error('ERROR GETTING ITEM ', error));
+      return item;
     }
     return null;
   }, [name, storage]);
@@ -100,7 +120,7 @@ const usePersistedString = (
 };
 
 const PersistFormikValuesMemo: FC<PersistFormikValuesProps> = props => {
-  const { debounce = 300, persistInvalid, ignoreValues } = props;
+  const { debounce = 300, persistInvalid, ignoreValues, parseValues } = props;
   const { values, setValues, isValid, initialValues } = useFormikContext<any>();
   const [persistedString, persistValues] = usePersistedString(props);
   const stringValues = JSON.stringify(values);
@@ -110,7 +130,9 @@ const PersistFormikValuesMemo: FC<PersistFormikValuesProps> = props => {
       const valuesToPersist = ignoreValues
         ? omit(values, ignoreValues)
         : values;
-      persistValues(valuesToPersist);
+      persistValues(
+        parseValues ? parseValues(valuesToPersist) : valuesToPersist
+      );
     }
   }, [stringValues, isValid, persistInvalid]);
 
