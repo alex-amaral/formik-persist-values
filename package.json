@@ -1,7 +1,7 @@
 {
   "name": "formik-persist-remote-values",
   "description": "Persist and rehydrate a Formik values",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "author": "Sander Rocha <amaral.alex@poli.ufrj.br>",
   "repository": "alex-amaral/formik-persist-remote-values",
