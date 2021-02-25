@@ -6,7 +6,7 @@ import omit from 'lodash.omit';
 
 const KEY_DELIMITER = '_';
 
-export type CustomStorage = {
+export interface CustomStorage {
   setItem: (
     formId: string,
     formValues: Record<string, any> | string
@@ -14,7 +14,7 @@ export type CustomStorage = {
   getItem: (key: string) => Promise<any> | void;
   removeItem: (key: string) => Promise<any> | void;
   clear: () => void;
-};
+}
 
 export interface PersistFormikValuesProps {
   name: string;
