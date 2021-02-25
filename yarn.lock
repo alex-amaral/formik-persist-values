@@ -1886,6 +1886,15 @@ formik-persist-remote-values@1.0.2:
     lodash.omit "^4.5.0"
     react-use "^13.14.3"
 
+formik-persist-remote-values@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/formik-persist-remote-values/-/formik-persist-remote-values-1.0.3.tgz#96f14cebaa6a7604a20375e108449e598e0d21be"
+  integrity sha512-62V0VlYOERSqYYHAcp+bkjI0wbt5aD1XAtt586OFxUQK3iLqc2PKruot2pxjAH5nYmSDvtB76D6k8Mjh3roflg==
+  dependencies:
+    formik-persist-remote-values "1.0.2"
+    lodash.omit "^4.5.0"
+    react-use "^13.14.3"
+
 formik@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/formik/-/formik-2.1.1.tgz#a0f436d088e0aecaaa2e619682c323408a9e2c79"
